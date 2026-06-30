@@ -1,0 +1,6 @@
+apiVersion: v2
+name: worldcup2026-app
+description: Helm chart for the World Cup 2026 Express.js + PostgreSQL application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

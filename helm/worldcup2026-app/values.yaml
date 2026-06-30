@@ -1,0 +1,61 @@
+image:
+  repository: trigyi/worldcup2026-app
+  tag: latest
+  pullPolicy: Always
+
+replicaCount: 2
+
+resources:
+  app:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 128Mi
+  postgres:
+    requests:
+      cpu: 50m
+      memory: 96Mi
+    limits:
+      cpu: 300m
+      memory: 200Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercent: 70
+
+probes:
+  liveness:
+    path: /api/health
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    failureThreshold: 2
+  readiness:
+    path: /api/health/db
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    failureThreshold: 2
+
+service:
+  port: 3000
+
+ingress:
+  enabled: true
+  className: traefik
+  # IP publique du VPS Ikoula, exposée via sslip.io (résolution DNS sans nom de domaine à acheter)
+  host: worldcup.178.170.25.135.sslip.io
+
+postgres:
+  image: postgres:15
+  database: worldcup2026
+  user: postgres
+  storageSize: 1Gi
+
+env:
+  DB_HOST: "{{ .Release.Name }}-postgres"
+  DB_PORT: "5432"
+  DB_NAME: worldcup2026
+  DB_USER: postgres
