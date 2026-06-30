@@ -1,7 +1,7 @@
 image:
   repository: trigyi/worldcup2026-app
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 replicaCount: 2
 
@@ -35,8 +35,8 @@ probes:
     failureThreshold: 2
   readiness:
     path: /api/health/db
-    initialDelaySeconds: 5
-    periodSeconds: 5
+    initialDelaySeconds: 1
+    periodSeconds: 2
     failureThreshold: 2
 
 service:
