@@ -35,9 +35,9 @@ probes:
     failureThreshold: 2
   readiness:
     path: /api/health/db
-    initialDelaySeconds: 1
-    periodSeconds: 2
-    failureThreshold: 2
+    initialDelaySeconds: 0
+    periodSeconds: 1
+    failureThreshold: 1
 
 service:
   port: 3000
