@@ -414,9 +414,17 @@ app.post('/api/data', async (req, res) => {
 const PORT = 3000;
 
 if (require.main === module) {
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+
+  // Arrêt immédiat sur SIGTERM/SIGINT pour ne pas bloquer Kubernetes
+  // jusqu'au terminationGracePeriodSeconds lors d'un redémarrage de pod.
+  const shutdown = () => {
+    server.close(() => process.exit(0));
+  };
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
 }
 
 // Export pour les tests et les autres modules

@@ -1,6 +1,6 @@
 image:
   repository: trigyi/worldcup2026-app
-  tag: latest
+  tag: v1.1
   pullPolicy: IfNotPresent
 
 replicaCount: 2
