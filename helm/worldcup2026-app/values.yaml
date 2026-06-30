@@ -32,12 +32,16 @@ probes:
     path: /api/health
     initialDelaySeconds: 5
     periodSeconds: 5
-    failureThreshold: 2
+    timeoutSeconds: 3
+    # /api/compute blocks Node's single event loop for 2-3s; tolerate a few
+    # consecutive misses under CPU load before deciding the pod is truly stuck.
+    failureThreshold: 6
   readiness:
     path: /api/health/db
     initialDelaySeconds: 0
     periodSeconds: 1
-    failureThreshold: 1
+    timeoutSeconds: 2
+    failureThreshold: 3
 
 service:
   port: 3000
